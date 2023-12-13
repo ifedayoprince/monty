@@ -1,0 +1,26 @@
+#include "main.h"
+
+int main(void)
+{
+    stack_init();
+
+    stack_push(1);
+    stack_push(2);
+    stack_push(3);
+
+    stack_print(false); // 3, 2, 1
+
+    stack_pop();
+
+    stack_print(false); // 2, 1
+
+    stack_pop();
+
+    stack_print(false); // 1
+
+    stack_pop(); 
+
+    stack_print(false);
+
+    return (0);
+}

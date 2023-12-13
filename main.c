@@ -1,24 +1,34 @@
 #include "main.h"
+#include <stdio.h>
+#include <stdarg.h>
 
+/**
+ * main - entry point for program.
+ * @argc: number of arguments passed.
+ * @argv: array of arguments passed to program.
+ *
+ * Return: an exit value.
+*/
 int main(int argc, char **argv)
 {
-    int fd;
+	FILE *file;
 
-    if (argc < 2)
-    {
-        dprintf(stderr, "USAGE: monty file\n");
-        exit(EXIT_FAILURE);
-    }
+	if (argc < 2)
+	{
+		dprintf(STDERR_FILENO, "USAGE: monty file\n");
+		exit(EXIT_FAILURE);
+	}
 
-    fd = open(argv[1], O_RDONLY);
-    if (fd == -1)
-    {
-        dprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-        exit(EXIT_FAILURE);
-    }
+	file = fopen(argv[1], "r");
+	if (file == NULL)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
 
-    read_file_and_execute(fd);
+	stack_init();
+	read_file_and_execute(file);
 
-    close(fd);
-    return (0);
+	fclose(file);
+	return (0);
 }
