@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * queue_push - pushes a value to queue.

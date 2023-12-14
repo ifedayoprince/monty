@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * malloc_check - checks if malloc failed and throw an error.

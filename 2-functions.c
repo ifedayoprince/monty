@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * sub - subtract the top value by the bottom in a stack

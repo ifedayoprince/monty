@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * *strtrim - remove all whitespace characters from a

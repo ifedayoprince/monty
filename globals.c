@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 state_t GLOBAL_ENV = {
 	0,
