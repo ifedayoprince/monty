@@ -18,7 +18,7 @@ void malloc_check(void *ptr)
 */
 void malloc_error(void)
 {
-	printf("Error: malloc failed\n");
+	fprintf(stderr, "Error: malloc failed\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -32,17 +32,19 @@ void malloc_error(void)
 */
 void unknown_instruction(int line, opcode_t *opcode)
 {
-	dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", line, opcode->opcode);
+	fprintf(stderr, "L%d: unknown instruction %s\n", line, opcode->opcode);
 	exit(EXIT_FAILURE);
 }
 
 /**
  * error_occured - exits the program.
+ * @msg: the message to print before exit.
  * @line: the line that triggered the shutdown.
  *
  * Return: void
 */
-void error_occured(__attribute__((unused)) int line)
+void error_occured(char *msg, __attribute__((unused)) int line)
 {
+	fprintf(stderr, "L%d: %s\n", line, msg);
 	exit(EXIT_FAILURE);
 }

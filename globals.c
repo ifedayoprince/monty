@@ -1,3 +1,5 @@
 #include "main.h"
 
-int *GLOBAL_OPCODE_VALUE = NULL;
+state_t GLOBAL_ENV = {
+	0,
+	false};

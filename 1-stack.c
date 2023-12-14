@@ -1,27 +1,22 @@
 #include "main.h"
 
 /**
- * stack_init - initializes a new stack.
- * Return: the newly initialized stack.
-*/
-stack_t *stack_init()
-{
-	stack_t *stack = NULL;
-
-	return (stack);
-}
-
-/**
  * stack_push - pushes a value to stack.
  * @stack: the stack to push to.
  * @n: the value to push to stack.
  *
  * Return: void
-*/
+ */
 void stack_push(stack_t **stack, int n)
 {
 	stack_t *head = *stack;
 	stack_t *block;
+
+	if (GLOBAL_ENV.queue_mode)
+	{
+		queue_push(stack, n);
+		return;
+	}
 
 	/* Go to top of stack */
 	if (head)
@@ -51,21 +46,22 @@ void stack_push(stack_t **stack, int n)
  * @stack: the stack to pop from.
  *
  * Return: the value of the block that was popped.
-*/
+ */
 int stack_pop(stack_t **stack)
 {
 	stack_t *head = *stack;
 	stack_t *prev;
 	int n;
 
+	if (GLOBAL_ENV.queue_mode)
+		return (queue_pop(stack));
+
 	/* Go to top of stack */
 	if (!head)
 		return (0);
 
 	while (head->next != NULL)
-	{
 		head = head->next;
-	}
 
 	prev = head->prev;
 	if (prev)
@@ -85,11 +81,16 @@ int stack_pop(stack_t **stack)
  * @fifo: if true, the stack is printed in FIFO order.
  *
  * Return: void
-*/
+ */
 void stack_print(stack_t **stack, bool fifo)
 {
 	stack_t *head = *stack;
-	int stack_size = 0;
+
+	if (GLOBAL_ENV.queue_mode)
+	{
+		queue_print(stack);
+		return;
+	}
 
 	if (!head)
 		return;
@@ -100,7 +101,6 @@ void stack_print(stack_t **stack, bool fifo)
 		{
 			printf("%d\n", head->n);
 			head = head->next;
-			stack_size++;
 		}
 	}
 	else
@@ -110,7 +110,6 @@ void stack_print(stack_t **stack, bool fifo)
 
 		while (head != NULL)
 		{
-			stack_size++;
 			printf("%d\n", head->n);
 			head = head->prev;
 		}
@@ -122,24 +121,51 @@ void stack_print(stack_t **stack, bool fifo)
  * @stack: the stack containing the value to print.
  *
  * Return: void
-*/
+ */
 int stack_pint(stack_t **stack)
 {
 	stack_t *head = *stack;
 	int n;
+
+	if (GLOBAL_ENV.queue_mode)
+		return (queue_pint(stack));
 
 	/* Go to top of stack */
 	if (!head)
 		return (0);
 
 	while (head->next != NULL)
-	{
 		head = head->next;
-	}
 
 	n = head->n;
 
 	printf("%d\n", n);
 
 	return (n);
+}
+
+/**
+ * stack_len - prints the values of a stack.
+ * @stack: the stack to print.
+ *
+ * Return: the length of the stack
+ */
+int stack_len(stack_t **stack)
+{
+	stack_t *head = *stack;
+	int stack_size = 0;
+
+	if (GLOBAL_ENV.queue_mode)
+		return (queue_len(stack));
+
+	if (!head)
+		return (0);
+
+	while (head != NULL)
+	{
+		head = head->next;
+		stack_size++;
+	}
+
+	return (stack_size);
 }

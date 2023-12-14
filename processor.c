@@ -11,19 +11,21 @@
  */
 int read_file_and_execute(FILE *fd)
 {
-	size_t num_bytes = 0;
-	char *text;
+	char text[1024];
 	int line = 0;
+	stack_t *stack;
 	opcode_t *opcode_instruction = malloc(sizeof(opcode_t));
 
 	malloc_check(opcode_instruction);
 
-	stack_t *stack = stack_init();
+	stack = NULL;
 
-	while (getline(&text, &num_bytes, fd) != -1)
+	while (fgets(text, sizeof(text), fd) != NULL)
 	{
 		line++;
-		if (!strcmp(strtrim(text), ""))
+		if (!(
+				strcmp(strtrim(text), "") &&
+				strncmp(strtrim(text), "#", 1)))
 			continue;
 
 		parse_line(opcode_instruction, text);
@@ -31,7 +33,6 @@ int read_file_and_execute(FILE *fd)
 	}
 
 	free(opcode_instruction);
-	free(text);
 	return (0);
 }
 
@@ -60,10 +61,7 @@ void parse_line(opcode_t *instruction, char *text)
 			part = strtrim(part);
 			instruction->opcode = part;
 
-			if (!(
-					strcmp(part, (char *)"pall") &&
-					strcmp(part, (char *)"pint") &&
-					strcmp(part, (char *)"pop")))
+			if (strcmp(part, (char *)"push"))
 			{
 				instruction->value = 0;
 				break;
@@ -87,24 +85,68 @@ void parse_line(opcode_t *instruction, char *text)
 void run_operation(stack_t **stack, opcode_t *operation, int line)
 {
 	int i;
-	instruction_t operations[ALLOWED_INSTRUCTIONS] = {
-		{"pint", pint},
-		{"push", push},
-		{"pop", pop},
-		{"pall", pall},
-	};
+	instruction_t *operations = get_instructions();
 	bool operation_success = false;
+
+	if (!(strcmp(operation->opcode, "stack")))
+	{
+		GLOBAL_ENV.queue_mode = false;
+		return;
+	}
+	else if (!strcmp(operation->opcode, "queue"))
+	{
+		GLOBAL_ENV.queue_mode = true;
+		return;
+	}
 
 	for (i = 0; i < ALLOWED_INSTRUCTIONS; i++)
 	{
+
 		if (!strcmp((operations[i]).opcode, operation->opcode))
 		{
-			GLOBAL_OPCODE_VALUE = &operation->value;
+			GLOBAL_ENV.operand = operation->value;
 			(operations[i]).f(stack, line);
 			operation_success = true;
 		}
 	}
 
+	free(operations);
+
 	if (operation_success == false)
 		unknown_instruction(line, operation);
+}
+
+/**
+ * get_instructions - gets the function that runs an opcode.
+ *
+ * Return: an array of instruction mapped to its function.
+ */
+instruction_t *get_instructions()
+{
+	int i;
+	instruction_t *dynamic_instructions;
+	static instruction_t instructions[ALLOWED_INSTRUCTIONS] = {
+		{"pint", pint},
+		{"push", push},
+		{"pop", pop},
+		{"pall", pall},
+		{"sub", sub},
+		{"div", divide},
+		{"mul", multiply},
+		{"mod", mod},
+		{"pchar", pchar},
+		{"pstr", pstr},
+		{"rotr", rotr},
+		{"rotl", rotl},
+	};
+
+	dynamic_instructions = malloc(ALLOWED_INSTRUCTIONS * sizeof(instruction_t));
+	malloc_check(dynamic_instructions);
+
+	for (i = 0; i < ALLOWED_INSTRUCTIONS; i++)
+	{
+		dynamic_instructions[i] = instructions[i];
+	}
+
+	return (dynamic_instructions);
 }

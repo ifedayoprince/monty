@@ -10,9 +10,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-extern int *GLOBAL_OPCODE_VALUE;
-
-#define ALLOWED_INSTRUCTIONS 4
+#define ALLOWED_INSTRUCTIONS 12
 #define MAX_INSTRUCTION_PARTS 2
 
 /**
@@ -58,30 +56,62 @@ typedef struct opcode_s
 	int value;
 } opcode_t;
 
+/**
+ * struct state_t - the current operand and queue mode.
+ * @operand: the current value being passed to stack functions.
+ * @queue_mode: the flag indicating if queue behaviour is needed.
+ * 
+ * Description: holds the single general state of the program.
+*/
+typedef struct state_s
+{
+	int operand;
+	bool queue_mode;
+} state_t;
+extern state_t GLOBAL_ENV;
+
+
 int read_file_and_execute(FILE *fd);
 void parse_line(opcode_t *instruction, char *str);
 
 /* Stack */
-stack_t *stack_init();
 void stack_push(stack_t **stack, int n);
 int stack_pop(stack_t **stack);
-int stack_pint(stack_t **stack);
 void stack_print(stack_t **stack, bool fifo);
+int stack_pint(stack_t **stack);
+int stack_len(stack_t **stack);
+
+/* Queue */
+void queue_push(stack_t **queue, int n);
+int queue_pop(stack_t **queue);
+void queue_print(stack_t **queue);
+int queue_pint(stack_t **queue);
+int queue_len(stack_t **queue);
 
 /* Operations */
 void push(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
+void divide(stack_t **stack, unsigned int line_number);
+void multiply(stack_t **stack, unsigned int line_number);
+void mod(stack_t **stack, unsigned int line_number);
+void pchar(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
 
 /* Errors */
 void malloc_error(void);
 void malloc_check(void *ptr);
 void unknown_instruction(int line, opcode_t *opcode);
-void error_occured(int line);
+void error_occured(char *msg, int line);
 
 char *strtrim(const char *str);
 bool is_whitespace(char ch);
 void run_operation(stack_t **stack, opcode_t *operation, int line);
+
+instruction_t *get_instructions();
 
 #endif

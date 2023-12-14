@@ -9,7 +9,7 @@
 */
 void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
-	stack_push(stack, *GLOBAL_OPCODE_VALUE);
+	stack_push(stack, GLOBAL_ENV.operand);
 }
 
 /**
