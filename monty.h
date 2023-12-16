@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <ctype.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -72,7 +73,7 @@ extern state_t GLOBAL_ENV;
 
 
 int read_file_and_execute(FILE *fd);
-void parse_line(opcode_t *instruction, char *str);
+void parse_line(opcode_t *instruction, char *str, int line);
 
 /* Stack */
 void stack_push(stack_t **stack, int n);

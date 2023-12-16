@@ -2,6 +2,26 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+int isNumber(const char *str)
+{
+	if (*str == '\0')
+	{
+		return 0;
+	}
+
+	if(str[0] == '-')
+		str++;
+	while (*str != '\0')
+	{
+		if (!isdigit(*str))
+			return 0;
+
+		str++;
+	}
+
+	return 1;
+}
+
 /**
  * read_file_and_execute - reads the file line by line
  *              and triggers their execution.
@@ -28,7 +48,7 @@ int read_file_and_execute(FILE *fd)
 				strncmp(strtrim(text), "#", 1)))
 			continue;
 
-		parse_line(opcode_instruction, text);
+		parse_line(opcode_instruction, text, line);
 		run_operation(&stack, opcode_instruction, line);
 	}
 
@@ -41,10 +61,11 @@ int read_file_and_execute(FILE *fd)
  * @instruction: the current instructions buffer
  *            to write to.
  * @text: the current line to be parsed.
+ * @line: the current line
  *
  * Return. void
  */
-void parse_line(opcode_t *instruction, char *text)
+void parse_line(opcode_t *instruction, char *text, int line)
 {
 	int parts_found = 0, i;
 	char *delim = " ";
@@ -68,7 +89,11 @@ void parse_line(opcode_t *instruction, char *text)
 			}
 		}
 		else
+		{
+			if (!isNumber(strtrim(part)))
+				error_occured("usage: push integer", line);
 			instruction->value = atoi(strtrim(part));
+		}
 		parts_found++;
 	}
 }
