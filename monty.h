@@ -11,7 +11,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#define ALLOWED_INSTRUCTIONS 13
+#define ALLOWED_INSTRUCTIONS 14
 #define MAX_INSTRUCTION_PARTS 2
 
 /**
@@ -103,6 +103,7 @@ void pstr(stack_t **stack, unsigned int line_number);
 void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
+ void add(stack_t **stack, unsigned int line_number);
 
 /* Errors */
 void malloc_error(void);

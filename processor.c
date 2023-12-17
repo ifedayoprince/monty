@@ -123,6 +123,8 @@ void run_operation(stack_t **stack, opcode_t *operation, int line)
 		GLOBAL_ENV.queue_mode = true;
 		return;
 	}
+	else if (!strcmp(operation->opcode, "nop"))
+                 return;
 
 	for (i = 0; i < ALLOWED_INSTRUCTIONS; i++)
 	{
@@ -164,6 +166,7 @@ instruction_t *get_instructions()
 		{"rotr", rotr},
 		{"rotl", rotl},
 		{"swap", swap},
+		{"add", add},
 	};
 
 	dynamic_instructions = malloc(ALLOWED_INSTRUCTIONS * sizeof(instruction_t));
@@ -176,3 +179,4 @@ instruction_t *get_instructions()
 
 	return (dynamic_instructions);
 }
+
