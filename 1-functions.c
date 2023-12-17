@@ -49,7 +49,19 @@ void pall(stack_t **stack, __attribute__((unused))  unsigned int line_number)
 void pint(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
 	if(*stack == NULL)
+
 		error_occured("can't pint, stack empty", line_number);
 
 	stack_pint(stack);
 }
+ void add(stack_t **stack, unsigned int line_number)
+{
+ 	int first_element,second_element,result;
+ 
+	if(stack_len(stack) < 2)
+		error_occured("can't add, stack too short", line_number);	
+	first_element = stack_pop(stack);
+        second_element = stack_pop(stack);
+	result = second_element + first_element;
+	stack_push(stack,result); 
+}                                                                                                                                                              }	
