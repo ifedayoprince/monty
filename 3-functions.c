@@ -54,3 +54,12 @@ void rotr(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 	stack_push(stack, first);
 	stack_push(stack, second);
 }
+
+void swap(stack_t **stack, __attribute__((unused)) unsigned int line_number)
+{
+	int first_element = stack_pop(stack);
+	int second_element = stack_pop(stack);
+
+	stack_push(stack, first_element);
+	stack_push(stack, second_element);
+}

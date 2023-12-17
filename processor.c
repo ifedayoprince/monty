@@ -163,6 +163,7 @@ instruction_t *get_instructions()
 		{"pstr", pstr},
 		{"rotr", rotr},
 		{"rotl", rotl},
+		{"swap", swap},
 	};
 
 	dynamic_instructions = malloc(ALLOWED_INSTRUCTIONS * sizeof(instruction_t));
