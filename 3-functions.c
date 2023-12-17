@@ -57,6 +57,9 @@ void rotr(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 
 void swap(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
+	if(stack_len(stack) < 2)
+		error_occured("can't swap, stack too short", line_number);
+	
 	int first_element = stack_pop(stack);
 	int second_element = stack_pop(stack);
 
