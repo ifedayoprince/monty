@@ -2,24 +2,29 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+/**
+ * isNumber - checks if a string contains only digits.
+ * @str: the string to check.
+ * Return: 1 is string is pure number,
+ *        Otherwise - 0.
+*/
 int isNumber(const char *str)
 {
 	if (*str == '\0')
-	{
-		return 0;
-	}
+		return (0);
 
-	if(str[0] == '-')
+	if (str[0] == '-')
 		str++;
+
 	while (*str != '\0')
 	{
 		if (!isdigit(*str))
-			return 0;
+			return (0);
 
 		str++;
 	}
 
-	return 1;
+	return (1);
 }
 
 /**
@@ -124,7 +129,7 @@ void run_operation(stack_t **stack, opcode_t *operation, int line)
 		return;
 	}
 	else if (!strcmp(operation->opcode, "nop"))
-                 return;
+		return;
 
 	for (i = 0; i < ALLOWED_INSTRUCTIONS; i++)
 	{
@@ -179,4 +184,3 @@ instruction_t *get_instructions()
 
 	return (dynamic_instructions);
 }
-

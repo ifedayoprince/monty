@@ -11,6 +11,7 @@
 void sub(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
 	int first, second;
+
 	if (stack_len(stack) < 2)
 		error_occured("can't sub, stack too short", line_number);
 
@@ -31,6 +32,7 @@ void sub(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 void divide(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
 	int first, second;
+
 	if (stack_len(stack) < 2)
 		error_occured("can't div, stack too short", line_number);
 
@@ -54,6 +56,7 @@ void divide(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 void multiply(stack_t **stack, unsigned int line_number)
 {
 	int first, second;
+
 	if (stack_len(stack) < 2)
 		error_occured("can't mul, stack too short", line_number);
 
@@ -75,6 +78,7 @@ void multiply(stack_t **stack, unsigned int line_number)
 void mod(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 {
 	int first, second;
+
 	if (stack_len(stack) < 2)
 		error_occured("can't mod, stack too short", line_number);
 

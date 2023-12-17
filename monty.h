@@ -61,16 +61,15 @@ typedef struct opcode_s
  * struct state_t - the current operand and queue mode.
  * @operand: the current value being passed to stack functions.
  * @queue_mode: the flag indicating if queue behaviour is needed.
- * 
+ *
  * Description: holds the single general state of the program.
-*/
+ */
 typedef struct state_s
 {
 	int operand;
 	bool queue_mode;
 } state_t;
 extern state_t GLOBAL_ENV;
-
 
 int read_file_and_execute(FILE *fd);
 void parse_line(opcode_t *instruction, char *str, int line);
@@ -103,7 +102,7 @@ void pstr(stack_t **stack, unsigned int line_number);
 void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
- void add(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
 
 /* Errors */
 void malloc_error(void);
